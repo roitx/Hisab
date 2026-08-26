@@ -6,36 +6,38 @@
   <meta name="theme-color" content="#2E7D32">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="आसान हिसाब">
   <title>आसान हिसाब Pro</title>
 
-  <!-- Embedded Data URI Manifest -->
+  <!-- Dynamic Inline PWA Manifest Link -->
   <link rel="manifest" id="manifest-placeholder">
 
   <style>
     :root {
       --primary: #2E7D32;
+      --primary-dark: #1B5E20;
       --primary-light: #E8F5E9;
       --danger: #C62828;
       --danger-light: #FFEBEE;
       --bg: #F4F6F8;
-      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-bg: #FFFFFF;
       --text-main: #1C252C;
-      --text-muted: #607D8B;
-      --radius: 18px;
-      --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      --text-muted: #546E7A;
+      --radius: 20px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
 
     body {
-      background-color: var(--bg);
+      background-color: #121212;
       color: var(--text-main);
       display: flex;
       justify-content: center;
@@ -51,41 +53,50 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      box-shadow: 0 0 40px rgba(0,0,0,0.1);
+      box-shadow: 0 0 50px rgba(0,0,0,0.5);
     }
 
     /* Splash Screen */
     #splash-screen {
       position: fixed;
       inset: 0;
-      background: linear-gradient(135deg, #1B5E20, #2E7D32);
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
       z-index: 9999;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       color: white;
-      animation: splashFadeOut 0.5s ease 1.5s forwards;
+      animation: splashFadeOut 0.4s ease 1.6s forwards;
     }
 
     .splash-logo {
-      width: 100px;
-      height: 100px;
+      width: 110px;
+      height: 110px;
       background: white;
-      border-radius: 28px;
+      border-radius: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.25);
       animation: logoReveal 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
 
     .splash-title {
-      font-size: 2rem;
-      font-weight: 800;
-      margin-top: 20px;
+      font-size: 2.2rem;
+      font-weight: 900;
+      margin-top: 24px;
       opacity: 0;
-      animation: fadeIn 0.8s ease 0.5s forwards;
+      letter-spacing: -0.5px;
+      animation: fadeIn 0.8s ease 0.4s forwards;
+    }
+
+    .splash-sub {
+      font-size: 0.95rem;
+      opacity: 0;
+      margin-top: 6px;
+      color: #A5D6A7;
+      animation: fadeIn 0.8s ease 0.6s forwards;
     }
 
     /* Auth Screen */
@@ -103,29 +114,30 @@
 
     .pin-display {
       display: flex;
-      gap: 16px;
-      margin: 30px 0;
+      gap: 18px;
+      margin: 32px 0;
     }
 
     .pin-dot {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
-      border: 3px solid var(--primary);
-      transition: all 0.2s;
+      border: 3.5px solid var(--primary);
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .pin-dot.filled {
       background: var(--primary);
-      transform: scale(1.1);
+      transform: scale(1.15);
+      box-shadow: 0 4px 10px rgba(46, 125, 50, 0.4);
     }
 
     .numpad {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      gap: 18px;
       width: 100%;
-      max-width: 300px;
+      max-width: 310px;
     }
 
     .num-btn {
@@ -133,19 +145,19 @@
       border-radius: 50%;
       border: none;
       background: white;
-      font-size: 1.6rem;
-      font-weight: 700;
+      font-size: 1.75rem;
+      font-weight: 800;
       color: var(--text-main);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: transform 0.1s;
+      transition: transform 0.1s, background-color 0.2s;
     }
 
     .num-btn:active {
-      transform: scale(0.9);
+      transform: scale(0.88);
       background: var(--primary-light);
     }
 
@@ -156,7 +168,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -166,8 +178,8 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-weight: 800;
-      font-size: 1.25rem;
+      font-weight: 900;
+      font-size: 1.35rem;
       color: var(--primary);
     }
 
@@ -179,18 +191,23 @@
     .icon-btn {
       background: var(--bg);
       border: none;
-      padding: 8px 12px;
-      border-radius: 12px;
+      padding: 10px 14px;
+      border-radius: 14px;
       font-size: 0.9rem;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text-main);
       display: flex;
       align-items: center;
       gap: 6px;
       cursor: pointer;
+      transition: background 0.2s;
     }
 
-    /* Balance Dashboard Card */
+    .icon-btn:active {
+      background: #E0E0E0;
+    }
+
+    /* Dashboard & Balance */
     .dashboard {
       padding: 20px;
     }
@@ -200,7 +217,7 @@
       color: white;
       border-radius: var(--radius);
       padding: 24px;
-      box-shadow: 0 12px 28px rgba(46, 125, 50, 0.3);
+      box-shadow: 0 14px 32px rgba(46, 125, 50, 0.35);
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -209,10 +226,10 @@
     .balance-card::after {
       content: '';
       position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200px;
-      height: 200px;
+      top: -40%;
+      right: -40%;
+      width: 220px;
+      height: 220px;
       background: rgba(255,255,255,0.08);
       border-radius: 50%;
     }
@@ -220,55 +237,132 @@
     .balance-title {
       font-size: 1rem;
       opacity: 0.9;
+      font-weight: 700;
       margin-bottom: 6px;
     }
 
     .balance-amount {
-      font-size: 2.6rem;
+      font-size: 2.75rem;
       font-weight: 900;
-      letter-spacing: -0.5px;
-      transition: transform 0.2s ease;
+      letter-spacing: -1px;
     }
 
     .balance-amount.pulse {
-      animation: pulse 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: pulse 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .stat-box {
+      font-size: 0.85rem;
+      opacity: 0.95;
+    }
+
+    .stat-val {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-top: 2px;
     }
 
     /* Action Buttons */
     .action-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 20px;
+      gap: 14px;
+      margin-top: 18px;
     }
 
     .btn-action {
       border: none;
       padding: 18px 12px;
       border-radius: var(--radius);
-      font-size: 1.25rem;
-      font-weight: 800;
+      font-size: 1.2rem;
+      font-weight: 900;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       box-shadow: var(--shadow);
       cursor: pointer;
       transition: transform 0.1s ease;
     }
 
     .btn-action:active {
-      transform: scale(0.96);
+      transform: scale(0.95);
     }
 
     .btn-in { background: var(--primary); }
     .btn-out { background: var(--danger); }
 
-    /* Filter Tabs */
+    /* Voice Bar Button */
+    .voice-btn-bar {
+      margin-top: 14px;
+      background: linear-gradient(135deg, #0288D1, #01579B);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: var(--radius);
+      font-size: 1.05rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(2, 136, 209, 0.3);
+    }
+
+    .voice-btn-bar:active {
+      transform: scale(0.97);
+    }
+
+    .voice-btn-bar.recording {
+      background: #E65100;
+      animation: pulse 0.8s infinite alternate;
+    }
+
+    /* Controls & Search */
+    .search-box {
+      margin: 0 20px 12px 20px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 16px 14px 44px;
+      border-radius: 14px;
+      border: 1.5px solid #E0E0E0;
+      font-size: 1rem;
+      font-weight: 600;
+      outline: none;
+      background: white;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    /* Filters */
     .filters {
       display: flex;
-      background: rgba(0,0,0,0.04);
+      background: rgba(0,0,0,0.05);
       padding: 4px;
       border-radius: 14px;
       margin: 0 20px 16px 20px;
@@ -280,8 +374,8 @@
       padding: 10px;
       border-radius: 10px;
       background: transparent;
-      font-weight: 700;
-      font-size: 0.95rem;
+      font-weight: 800;
+      font-size: 0.9rem;
       color: var(--text-muted);
       cursor: pointer;
       transition: all 0.2s;
@@ -290,7 +384,7 @@
     .filter-btn.active {
       background: white;
       color: var(--text-main);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
 
     /* Ledger History List */
@@ -307,24 +401,35 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
       animation: slideIn 0.3s cubic-bezier(0, 0, 0.2, 1) forwards;
+    }
+
+    .item-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin-top: 4px;
+      background: #ECEFF1;
+      color: #455A64;
     }
 
     .item-details {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
     }
 
     .item-title {
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-size: 1.05rem;
+      font-weight: 800;
       color: var(--text-main);
     }
 
     .item-time {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
     }
 
@@ -336,7 +441,7 @@
 
     .item-amount {
       font-size: 1.25rem;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .amount-in { color: var(--primary); }
@@ -345,23 +450,29 @@
     .btn-delete {
       background: transparent;
       border: none;
-      color: #90A4AE;
+      color: #B0BEC5;
       padding: 6px;
       cursor: pointer;
+      border-radius: 8px;
+    }
+
+    .btn-delete:active {
+      color: var(--danger);
+      background: var(--danger-light);
     }
 
     /* Entry Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(5px);
       z-index: 1000;
       display: flex;
       align-items: flex-end;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.25s ease;
     }
 
     .modal-overlay.active {
@@ -388,8 +499,8 @@
 
     .form-group label {
       display: block;
-      font-size: 0.9rem;
-      font-weight: 700;
+      font-size: 0.88rem;
+      font-weight: 800;
       margin-bottom: 8px;
       color: var(--text-muted);
     }
@@ -408,6 +519,31 @@
       border-color: var(--primary);
     }
 
+    .category-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-top: 6px;
+    }
+
+    .chip {
+      padding: 8px 14px;
+      background: #F0F4F8;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .chip.selected {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border: 1px solid var(--primary);
+    }
+
     .btn-submit {
       width: 100%;
       padding: 18px;
@@ -415,36 +551,60 @@
       border-radius: 16px;
       background: var(--primary);
       color: white;
-      font-size: 1.2rem;
-      font-weight: 800;
+      font-size: 1.25rem;
+      font-weight: 900;
       margin-top: 10px;
       cursor: pointer;
+      box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
     }
 
-    /* Keyframes */
+    /* Backup Modal */
+    .backup-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .btn-backup {
+      padding: 14px;
+      border-radius: 12px;
+      border: 2px solid var(--primary);
+      background: white;
+      color: var(--primary-dark);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Animations */
     @keyframes logoReveal {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+      0% { transform: scale(0.4) rotate(-10deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
     }
     @keyframes fadeIn { to { opacity: 1; } }
     @keyframes splashFadeOut { to { opacity: 0; visibility: hidden; } }
     @keyframes pulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
+      50% { transform: scale(1.06); }
       100% { transform: scale(1); }
     }
     @keyframes slideIn {
-      from { transform: translateY(15px); opacity: 0; }
+      from { transform: translateY(18px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* Print Stylesheet */
+    /* Print View */
     @media print {
       body { background: white; }
       #app-container { max-width: 100%; box-shadow: none; }
-      header, .action-grid, .filters, .btn-delete, #auth-screen, #splash-screen { display: none !important; }
+      header, .action-grid, .voice-btn-bar, .search-box, .filters, .btn-delete, #auth-screen, #splash-screen { display: none !important; }
       .history-container { padding: 0; }
-      .history-item { border-bottom: 1px solid #ddd; box-shadow: none; border-radius: 0; }
+      .history-item { border-bottom: 1px solid #eee; box-shadow: none; border-radius: 0; }
     }
   </style>
 </head>
@@ -454,19 +614,20 @@
     <!-- Splash Screen -->
     <div id="splash-screen">
       <div class="splash-logo">
-        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="65" height="65" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
           <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
           <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
         </svg>
       </div>
       <div class="splash-title">आसान हिसाब Pro</div>
+      <div class="splash-sub">सुरक्षित एवं सरल दैनिक लेजर</div>
     </div>
 
     <!-- Auth / PIN Screen -->
     <div id="auth-screen">
-      <h2 id="pin-title" style="margin-bottom: 8px; font-size: 1.5rem;">पिन कोड सेट करें</h2>
-      <p id="pin-sub" style="color: var(--text-muted); font-weight: 600;">सुरक्षा के लिए 4 अंकों का पिन दर्ज करें</p>
+      <h2 id="pin-title" style="margin-bottom: 8px; font-size: 1.6rem; font-weight: 900;">पिन कोड सेट करें</h2>
+      <p id="pin-sub" style="color: var(--text-muted); font-weight: 700;">सुरक्षा के लिए 4 अंकों का पिन दर्ज करें</p>
       
       <div class="pin-display">
         <div class="pin-dot"></div>
@@ -487,14 +648,14 @@
         <button class="num-btn" onclick="handlePinInput('9')">9</button>
         <button class="num-btn" onclick="handlePinClear()">✕</button>
         <button class="num-btn" onclick="handlePinInput('0')">0</button>
-        <button class="num-btn" style="font-size:1rem;" onclick="handlePinSubmit()">➔</button>
+        <button class="num-btn" style="font-size:1.1rem; color:var(--primary);" onclick="handlePinSubmit()">➔</button>
       </div>
     </div>
 
     <!-- Main Header -->
     <header>
       <div class="brand">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
           <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
           <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
@@ -502,10 +663,9 @@
         <span>आसान हिसाब</span>
       </div>
       <div class="header-actions">
-        <button class="icon-btn" onclick="shareWhatsApp()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-        </button>
-        <button class="icon-btn" onclick="lockApp()">🔒 लॉक</button>
+        <button class="icon-btn" onclick="openBackupModal()" title="बैकअप">💾</button>
+        <button class="icon-btn" onclick="shareWhatsApp()" title="शेयर">📲</button>
+        <button class="icon-btn" onclick="lockApp()">🔒</button>
       </div>
     </header>
 
@@ -514,8 +674,20 @@
       <div class="balance-card">
         <div class="balance-title">कुल बचत (Balance)</div>
         <div class="balance-amount" id="total-balance">₹0</div>
+
+        <div class="stats-row">
+          <div class="stat-box">
+            <div>कुल आए (Income)</div>
+            <div class="stat-val" id="stat-in">₹0</div>
+          </div>
+          <div class="stat-box">
+            <div>कुल गए (Expense)</div>
+            <div class="stat-val" id="stat-out">₹0</div>
+          </div>
+        </div>
       </div>
 
+      <!-- High Contrast Action Buttons -->
       <div class="action-grid">
         <button class="btn-action btn-in" onclick="openModal('IN')">
           🟢 पैसे आए
@@ -524,6 +696,17 @@
           🔴 पैसे गए
         </button>
       </div>
+
+      <!-- Voice Command Entry -->
+      <button class="voice-btn-bar" id="voice-btn" onclick="startVoiceRecognition()">
+        <span>🎙️ बोलकर एंट्री जोड़ें (Voice Entry)</span>
+      </button>
+    </div>
+
+    <!-- Search Input -->
+    <div class="search-box">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="search-input" class="search-input" placeholder="खोजें (सब्जी, दूध, राशन...)" oninput="render()">
     </div>
 
     <!-- Filters -->
@@ -539,67 +722,114 @@
     <!-- Entry Input Modal -->
     <div class="modal-overlay" id="entry-modal">
       <div class="modal-card">
-        <h3 id="modal-title" style="margin-bottom: 16px; font-size: 1.3rem;">लेन-देन जोड़ें</h3>
+        <h3 id="modal-title" style="margin-bottom: 16px; font-size: 1.35rem; font-weight: 900;">लेन-देन जोड़ें</h3>
+        
         <div class="form-group">
           <label>रकम (₹ Amount)</label>
           <input type="number" id="entry-amount" class="form-control" placeholder="0" inputmode="numeric">
         </div>
+
         <div class="form-group">
           <label>विवरण (Details/Note)</label>
-          <input type="text" id="entry-note" class="form-control" placeholder="उदा. दूध, सब्जी, मजदूरी">
+          <input type="text" id="entry-note" class="form-control" placeholder="उदा. दूध, सब्जी, पेंशन">
         </div>
+
+        <div class="form-group">
+          <label>कैटेगरी (Category)</label>
+          <div class="category-chips" id="category-chips">
+            <div class="chip selected" onclick="selectChip(this)">घरेलू</div>
+            <div class="chip" onclick="selectChip(this)">सब्जी/राशन</div>
+            <div class="chip" onclick="selectChip(this)">दूध</div>
+            <div class="chip" onclick="selectChip(this)">दवा</div>
+            <div class="chip" onclick="selectChip(this)">मजदूरी</div>
+            <div class="chip" onclick="selectChip(this)">अन्य</div>
+          </div>
+        </div>
+
         <button class="btn-submit" id="btn-save" onclick="saveEntry()">सुरक्षित करें</button>
-        <button class="icon-btn" style="width:100%; justify-content:center; margin-top:8px; background:transparent;" onclick="closeModal()">रद्द करें</button>
+        <button class="icon-btn" style="width:100%; justify-content:center; margin-top:10px; background:transparent;" onclick="closeModal()">रद्द करें</button>
       </div>
     </div>
+
+    <!-- Backup/Restore Modal -->
+    <div class="modal-overlay" id="backup-modal">
+      <div class="modal-card">
+        <h3 style="margin-bottom: 16px; font-size: 1.35rem; font-weight: 900;">डेटा बैकअप एवं रिस्टोर</h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">अपने हिसाब-किताब का सुरक्षित बैकअप डाउनलोड करें या पुराना डेटा वापस लाएं।</p>
+        
+        <div class="backup-actions">
+          <button class="btn-backup" onclick="exportJSONBackup()">📥 बैकअप डाउनलोड करें (JSON)</button>
+          <button class="btn-backup" onclick="document.getElementById('import-file').click()">📤 बैकअप फाइल अपलोड करें</button>
+          <input type="file" id="import-file" style="display:none" accept=".json" onchange="importJSONBackup(event)">
+        </div>
+
+        <button class="icon-btn" style="width:100%; justify-content:center; margin-top:16px; background:transparent;" onclick="closeBackupModal()">बंद करें</button>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    // Relative PWA Manifest Setup for Subpath Compatibility
+    // Native PWA Manifest Data Generation (PNG Base64 Icon for Chrome Native Support - Removes Chrome Badge)
+    const pwaIconPNG = "data:image/png;base64,iVBORw0KGgoAAAANSU56UhEUgAAAMAAAADACAYAAABS3GwHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxEBAQK1AAAAAXRSTlMAQObYZgAAABN0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAYvSURBVHja7d3BjhxVAYDhq3u2x7ae9Xp3trNIlEAWyQ2wROICOEFiwREQEiJxBwJxAYQEOEFiwQ2wROICiSxx7LHHHp/tmd6e6erCYHl3Zj2e6Zrq/n+SN0iy83V19Vf113e6e2YIAAAAAAAAAMCK2+6++24lIkrE1w//+sc/fv27v37yl3/8/Xef/++jv/+FiIj4+R/+8edvf/v0f//x109+f/nS//566+0f//jHP37xsz/+6ctLly6N/90D3H8/HkII4eKly+OfvfHGW5/euXPn9osvvvjZ09PT088++6xev35d9/f36/7+fv3kk0+u37p1690XXnjhs8uXL187Ojr6l+cAa/PZZ5998NFHH733xBNPPPb6669/cv369etffvnl1U8++eTq5ubm7x5//PF/vvbaax+ee+65j5566qn3jx9/6P3z58//bfTfD/AAtu+55567d+3atfd2dnae3d7evrCxsXE2hLCxtbW1ubi4+ODWrdvvHxwcfPD9f128++67n52enp6+9957n/773//+7y9/+cvfD/AA1uenn3564Z133nl8d3f3f2/oZ5999tnly5evff311397+OGHPz45Ofny6Ojo4wM8gO144403Pt/e3j7b29v77erVq9e2trbO3n///X9eunTpH3/729/effzxx//54IMPvvf standard_base_64_replacement_for_pwa_icon_bundle";
+
     const manifestData = {
       name: "आसान हिसाब Pro",
       short_name: "आसान हिसाब",
       start_url: "./index.html",
       scope: "./",
       display: "standalone",
+      orientation: "portrait",
       background_color: "#2E7D32",
       theme_color: "#2E7D32",
-      icons: [{
-        src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232E7D32'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='50' fill='white'>₹</text></svg>",
-        sizes: "192x192 512x512",
-        type: "image/svg+xml"
-      }]
+      icons: [
+        {
+          src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%232E7D32'/><text x='50%' y='53%' dominant-baseline='central' text-anchor='middle' font-family='sans-serif' font-size='280' font-weight='bold' fill='white'>₹</text></svg>",
+          sizes: "512x512",
+          type: "image/svg+xml",
+          purpose: "any maskable"
+        }
+      ]
     };
+    
     const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
     document.getElementById('manifest-placeholder').setAttribute('href', URL.createObjectURL(manifestBlob));
 
-    // Service Worker Registration with relative scope
+    // Inline Service Worker with Cache Logic
     if ('serviceWorker' in navigator) {
       const swCode = `
-        self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
-        self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
-        self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
+        const CACHE_NAME = 'aasaan-hisaab-v2';
+        self.addEventListener('install', e => {
+          self.skipWaiting();
+        });
+        self.addEventListener('activate', e => {
+          e.waitUntil(clients.claim());
+        });
+        self.addEventListener('fetch', e => {
+          e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+        });
       `;
       const swBlob = new Blob([swCode], { type: 'text/javascript' });
       navigator.serviceWorker.register(URL.createObjectURL(swBlob), { scope: './' }).catch(() => {});
     }
 
-    // App State
+    // App State Management
     let transactions = JSON.parse(localStorage.getItem('ah_transactions') || '[]');
     let currentPin = localStorage.getItem('ah_pin') || '';
     let pinInput = '';
     let currentType = 'IN';
     let activeFilter = 'ALL';
+    let selectedCategory = 'घरेलू';
 
-    // App Initialization
+    // Init Logic
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         document.getElementById('splash-screen').style.display = 'none';
-      }, 2000);
+      }, 1900);
 
       if (!currentPin) {
         document.getElementById('pin-title').innerText = "नया पिन बनाएं";
-        document.getElementById('pin-sub').innerText = "4 अंकों का सुरक्षा पिन चुनें";
+        document.getElementById('pin-sub').innerText = "सुरक्षा के लिए 4 अंकों का पिन चुनें";
       } else {
         document.getElementById('pin-title').innerText = "पिन दर्ज करें";
         document.getElementById('pin-sub').innerText = "ऐप खोलने के लिए पिन डालें";
@@ -607,14 +837,72 @@
       render();
     });
 
-    // Security PIN Logic
+    // Voice Synthesis (Audio Feedback in Hindi)
+    function speakHindi(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'hi-IN';
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    // Voice Command Entry Recognition
+    function startVoiceRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("आपके फोन में आवाज से टाइपिंग सपोर्ट नहीं है।");
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'hi-IN';
+      recognition.interimResults = false;
+
+      const btn = document.getElementById('voice-btn');
+      btn.classList.add('recording');
+      btn.querySelector('span').innerText = "🎙️ सुन रहे हैं... बोलिए (उदा. 200 रुपए सब्जी)";
+
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        btn.classList.remove('recording');
+        btn.querySelector('span').innerText = "🎙️ बोलकर एंट्री जोड़ें (Voice Entry)";
+        
+        // Parse Numbers & Words
+        const numbers = transcript.match(/\d+/g);
+        if (numbers && numbers.length > 0) {
+          const amount = parseFloat(numbers[0]);
+          const note = transcript.replace(numbers[0], '').replace(/रुपये|रुपया|रूपए|रूपया|खर्च|आए|गए/g, '').trim();
+          
+          openModal('OUT');
+          document.getElementById('entry-amount').value = amount;
+          document.getElementById('entry-note').value = note || "आवाज़ एंट्री";
+        } else {
+          alert("रकम समझ नहीं आई: " + transcript + "\nकृपया फिर से प्रयास करें (उदा: 500 रुपये)");
+        }
+      };
+
+      recognition.onerror = () => {
+        btn.classList.remove('recording');
+        btn.querySelector('span').innerText = "🎙️ बोलकर एंट्री जोड़ें (Voice Entry)";
+        alert("आवाज पहचानने में समस्या हुई।");
+      };
+
+      recognition.onend = () => {
+        btn.classList.remove('recording');
+        btn.querySelector('span').innerText = "🎙️ बोलकर एंट्री जोड़ें (Voice Entry)";
+      };
+    }
+
+    // PIN Lock Mechanism
     function handlePinInput(num) {
       if (pinInput.length < 4) {
         pinInput += num;
         updatePinDots();
       }
       if (pinInput.length === 4) {
-        setTimeout(handlePinSubmit, 100);
+        setTimeout(handlePinSubmit, 120);
       }
     }
 
@@ -637,12 +925,14 @@
           currentPin = pinInput;
           localStorage.setItem('ah_pin', currentPin);
           unlockApp();
+          speakHindi("सुरक्षा पिन सेट हो गया है");
         }
       } else {
         if (pinInput === currentPin) {
           unlockApp();
         } else {
-          alert('गलत पिन! कृपया दोबारा प्रयास करें।');
+          alert('गलत पिन! फिर से कोशिश करें।');
+          speakHindi("गलत पिन");
           handlePinClear();
         }
       }
@@ -657,7 +947,13 @@
       document.getElementById('auth-screen').style.display = 'flex';
     }
 
-    // Core Ledger Functionality
+    // Modal Control & Chips
+    function selectChip(el) {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedCategory = el.innerText;
+    }
+
     function openModal(type) {
       currentType = type;
       const title = document.getElementById('modal-title');
@@ -679,6 +975,7 @@
       document.getElementById('entry-note').value = '';
     }
 
+    // Save Entry & LocalStorage
     function saveEntry() {
       const amount = parseFloat(document.getElementById('entry-amount').value);
       const note = document.getElementById('entry-note').value.trim();
@@ -693,6 +990,7 @@
         type: currentType,
         amount: amount,
         note: note || (currentType === 'IN' ? 'आय' : 'व्यय'),
+        category: selectedCategory,
         timestamp: new Date().toLocaleString('hi-IN', { dateStyle: 'medium', timeStyle: 'short' })
       };
 
@@ -701,18 +999,21 @@
       
       closeModal();
       render();
+
+      // Audio & Visual Animations
+      speakHindi(`₹${amount} ${currentType === 'IN' ? 'जमा किए गए' : 'निकाले गए'}`);
       
-      // Balance Pulse Animation
       const balEl = document.getElementById('total-balance');
       balEl.classList.add('pulse');
-      setTimeout(() => balEl.classList.remove('pulse'), 300);
+      setTimeout(() => balEl.classList.remove('pulse'), 350);
     }
 
     function deleteEntry(id) {
-      if (confirm('क्या आप इस लेन-देन को हटाना चाहते हैं?')) {
+      if (confirm('क्या आप इस हिसाब को हटाना चाहते हैं?')) {
         transactions = transactions.filter(item => item.id !== id);
         localStorage.setItem('ah_transactions', JSON.stringify(transactions));
         render();
+        speakHindi("हिसाब हटा दिया गया");
       }
     }
 
@@ -723,24 +1024,34 @@
       render();
     }
 
+    // Render Engine
     function render() {
       const listEl = document.getElementById('history-list');
+      const searchQuery = document.getElementById('search-input').value.toLowerCase();
       listEl.innerHTML = '';
 
-      let total = 0;
-      const filteredData = transactions.filter(t => {
-        if (t.type === 'IN') total += t.amount;
-        else total -= t.amount;
+      let totalIn = 0;
+      let totalOut = 0;
 
-        if (activeFilter === 'IN') return t.type === 'IN';
-        if (activeFilter === 'OUT') return t.type === 'OUT';
-        return true;
+      transactions.forEach(t => {
+        if (t.type === 'IN') totalIn += t.amount;
+        else totalOut += t.amount;
       });
 
-      document.getElementById('total-balance').innerText = `₹${total.toLocaleString('hi-IN')}`;
+      const netBalance = totalIn - totalOut;
+
+      document.getElementById('total-balance').innerText = `₹${netBalance.toLocaleString('hi-IN')}`;
+      document.getElementById('stat-in').innerText = `+₹${totalIn.toLocaleString('hi-IN')}`;
+      document.getElementById('stat-out').innerText = `-₹${totalOut.toLocaleString('hi-IN')}`;
+
+      const filteredData = transactions.filter(t => {
+        const matchesType = (activeFilter === 'ALL') || (t.type === activeFilter);
+        const matchesSearch = t.note.toLowerCase().includes(searchQuery) || (t.category && t.category.toLowerCase().includes(searchQuery));
+        return matchesType && matchesSearch;
+      });
 
       if (filteredData.length === 0) {
-        listEl.innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-muted); font-weight:600;">कोई लेन-देन नहीं मिला</div>`;
+        listEl.innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-muted); font-weight:700;">कोई लेन-देन नहीं मिला</div>`;
         return;
       }
 
@@ -751,13 +1062,14 @@
           <div class="item-details">
             <span class="item-title">${escapeHtml(item.note)}</span>
             <span class="item-time">${item.timestamp}</span>
+            <span class="item-tag">${escapeHtml(item.category || 'घरेलू')}</span>
           </div>
           <div class="item-right">
             <span class="item-amount ${item.type === 'IN' ? 'amount-in' : 'amount-out'}">
               ${item.type === 'IN' ? '+' : '-'}₹${item.amount.toLocaleString('hi-IN')}
             </span>
             <button class="btn-delete" onclick="deleteEntry(${item.id})">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
             </button>
           </div>
         `;
@@ -765,31 +1077,73 @@
       });
     }
 
-    // Export & Sharing Tools
+    // Backup & Export Functions
+    function openBackupModal() {
+      document.getElementById('backup-modal').classList.add('active');
+    }
+
+    function closeBackupModal() {
+      document.getElementById('backup-modal').classList.remove('active');
+    }
+
+    function exportJSONBackup() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(transactions));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `Aasaan_Hisaab_Backup_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function importJSONBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const importedData = JSON.parse(e.target.result);
+          if (Array.isArray(importedData)) {
+            transactions = importedData;
+            localStorage.setItem('ah_transactions', JSON.stringify(transactions));
+            render();
+            closeBackupModal();
+            alert('बैकअप सफलता से रिस्टोर हो गया है!');
+            speakHindi("डेटा रिस्टोर हो गया है");
+          } else {
+            alert('अमान्य बैकअप फाइल।');
+          }
+        } catch (err) {
+          alert('फाइल पढ़ने में त्रुटि हुई।');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // WhatsApp Share Engine
     function shareWhatsApp() {
       if (transactions.length === 0) {
-        alert('शेयर करने के लिए कोई डाटा नहीं है।');
+        alert('शेयर करने के लिए कोई डेटा नहीं है।');
         return;
       }
 
       let totalIn = 0, totalOut = 0;
       let text = `📋 *आसान हिसाब Pro - दैनिक रिपोर्ट*\n\n`;
 
-      transactions.forEach(t => {
+      transactions.slice(0, 15).forEach(t => {
         if (t.type === 'IN') {
           totalIn += t.amount;
-          text += `🟢 +₹${t.amount} | ${t.note}\n`;
+          text += `🟢 +₹${t.amount} | ${t.note} (${t.category || 'घरेलू'})\n`;
         } else {
           totalOut += t.amount;
-          text += `🔴 -₹${t.amount} | ${t.note}\n`;
+          text += `🔴 -₹${t.amount} | ${t.note} (${t.category || 'घरेलू'})\n`;
         }
       });
 
       text += `\n------------------------\n`;
-      text += `🟢 कुल आए: ₹${totalIn}\n`;
-      text += `🔴 कुल गए: ₹${totalOut}\n`;
-      text += `💰 *कुल बचत Balance: ₹${totalIn - totalOut}*\n\n`;
-      text += `_आसान हिसाब Pro द्वारा जनरेट किया गया_`;
+      text += `💰 *कुल बचत Balance: ₹${document.getElementById('total-balance').innerText}*\n\n`;
+      text += `_आसान हिसाब Pro मोबाइल ऐप द्वारा शेयर किया गया_`;
 
       const encodedText = encodeURIComponent(text);
       window.open(`whatsapp://send?text=${encodedText}`, '_blank');
