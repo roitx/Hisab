@@ -234,7 +234,7 @@
       animation: pulse 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    /* High Contrast Action Buttons */
+    /* Action Buttons */
     .action-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -555,11 +555,12 @@
   </div>
 
   <script>
-    // Embedded PWA Manifest Creation
+    // Relative PWA Manifest Setup for Subpath Compatibility
     const manifestData = {
       name: "आसान हिसाब Pro",
       short_name: "आसान हिसाब",
-      start_url: ".",
+      start_url: "./index.html",
+      scope: "./",
       display: "standalone",
       background_color: "#2E7D32",
       theme_color: "#2E7D32",
@@ -572,7 +573,7 @@
     const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
     document.getElementById('manifest-placeholder').setAttribute('href', URL.createObjectURL(manifestBlob));
 
-    // Inline Service Worker Registration
+    // Service Worker Registration with relative scope
     if ('serviceWorker' in navigator) {
       const swCode = `
         self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
@@ -580,7 +581,7 @@
         self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
       `;
       const swBlob = new Blob([swCode], { type: 'text/javascript' });
-      navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+      navigator.serviceWorker.register(URL.createObjectURL(swBlob), { scope: './' }).catch(() => {});
     }
 
     // App State
